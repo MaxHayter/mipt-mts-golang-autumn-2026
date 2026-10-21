@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Доска задач учебной группы
+  version: 1.0.0
+  description: |
+    Учебный API для семинара по net/http. Данные живут только в памяти
+    и сбрасываются при перезапуске сервера.
+servers:
+  - url: http://localhost:8080
+    description: Локальный HTTP-сервер
+  - url: https://localhost:8080
+    description: Локальный HTTPS-сервер с самоподписанным сертификатом
+paths:
+  /api/tasks:
+    get:
+      summary: Получить все задачи
+      operationId: listTasks
+      tags: [Задачи]
+      responses:
+        '200':
+          description: Список задач в JSON
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+              example:
+                - id: 1
+                  text: Подготовить семинар
+    post:
+      summary: Создать задачу
+      operationId: createTask
+      tags: [Задачи]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+            example:
+              text: Показать httptest
+      responses:
+        '201':
+          description: Задача создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              example:
+                id: 2
+                text: Показать httptest
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/tasks.xml:
+    get:
+      summary: Получить все задачи в XML
+      operationId: listTasksXML
+      tags: [Форматы]
+      responses:
+        '200':
+          description: Список задач в XML
+          content:
+            application/xml:
+              schema:
+                type: string
+              example: '<tasks><task><id>1</id><text>Подготовить семинар</text></task></tasks>'
+  /upload:
+    post:
+      summary: Загрузить файл
+      operationId: uploadFile
+      tags: [Файлы]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Файл до 5 MiB
+      responses:
+        '200':
+          description: Файл сохранён в uploads/
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: 'uploaded: README.md'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  schemas:
+    Task:
+      type: object
+      required: [id, text]
+      properties:
+        id:
+          type: integer
+          example: 1
+        text:
+          type: string
+          example: Подготовить семинар
+    CreateTaskRequest:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+          minLength: 1
+          example: Показать httptest
+  responses:
+    BadRequest:
+      description: Некорректный JSON, пустой текст или неверная multipart-форма
+      content:
+        text/plain:
+          schema:
+            type: string
+          example: text is required
