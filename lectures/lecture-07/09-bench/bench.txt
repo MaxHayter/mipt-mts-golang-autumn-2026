@@ -1,0 +1,43 @@
+# Apple M1 Pro, go version go1.27.1 darwin/arm64
+goos: darwin
+goarch: arm64
+pkg: lecture-07/09-bench
+cpu: Apple M1 Pro
+BenchmarkReflectNaive-8           	 2281394	       523.0 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectNaive-8           	 2285838	       517.9 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectNaive-8           	 2344219	       516.4 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectNaive-8           	 2337079	       511.0 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectNaive-8           	 2347185	       514.2 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectNaive-8           	 2358913	       510.3 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 8111397	       148.0 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 8095938	       147.9 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 8031231	       148.4 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 8143435	       151.4 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 7830124	       150.0 ns/op	     128 B/op	       1 allocs/op
+BenchmarkReflectCached-8          	 7937384	       151.0 ns/op	     128 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4321690	       280.0 ns/op	      96 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4287198	       275.7 ns/op	      96 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4389975	       273.7 ns/op	      96 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4407680	       273.1 ns/op	      96 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4418389	       275.9 ns/op	      96 B/op	       1 allocs/op
+BenchmarkStdlibJSON-8             	 4417590	       275.3 ns/op	      96 B/op	       1 allocs/op
+BenchmarkGenerated-8              	13866853	        86.75 ns/op	     128 B/op	       1 allocs/op
+BenchmarkGenerated-8              	13797628	        93.10 ns/op	     128 B/op	       1 allocs/op
+BenchmarkGenerated-8              	12248026	        88.49 ns/op	     128 B/op	       1 allocs/op
+BenchmarkGenerated-8              	13964908	        86.53 ns/op	     128 B/op	       1 allocs/op
+BenchmarkGenerated-8              	13770758	        86.54 ns/op	     128 B/op	       1 allocs/op
+BenchmarkGenerated-8              	13511953	        89.43 ns/op	     128 B/op	       1 allocs/op
+BenchmarkEasyJSON-8               	 9263053	       123.3 ns/op	     240 B/op	       2 allocs/op
+BenchmarkEasyJSON-8               	 9474721	       121.5 ns/op	     240 B/op	       2 allocs/op
+BenchmarkEasyJSON-8               	 9846951	       121.8 ns/op	     240 B/op	       2 allocs/op
+BenchmarkEasyJSON-8               	 9904868	       121.9 ns/op	     240 B/op	       2 allocs/op
+BenchmarkEasyJSON-8               	 9862412	       122.8 ns/op	     240 B/op	       2 allocs/op
+BenchmarkEasyJSON-8               	 9972979	       121.6 ns/op	     240 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4024788	       295.4 ns/op	     224 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4076290	       292.0 ns/op	     224 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4129670	       289.0 ns/op	     224 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4216911	       289.2 ns/op	     224 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4153920	       287.4 ns/op	     224 B/op	       2 allocs/op
+BenchmarkStdlibCallsGenerated-8   	 4200456	       289.8 ns/op	     224 B/op	       2 allocs/op
+PASS
+ok  	lecture-07/09-bench	43.356s
