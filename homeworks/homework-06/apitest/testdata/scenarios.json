@@ -1,0 +1,355 @@
+[
+  {
+    "name": "lifecycle",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "  Не проходят платежи  ",
+          "service": " payments "
+        },
+        "code": 201,
+        "expected": {
+          "title": "Не проходят платежи",
+          "service": "payments",
+          "status": "OPEN",
+          "assignee": "",
+          "version": 1
+        },
+        "comments_count": 0
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "INVESTIGATING"
+        },
+        "code": 409
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/assignee",
+        "body": {
+          "user": " Nick "
+        },
+        "code": 200,
+        "expected": {
+          "assignee": "Nick",
+          "version": 2
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/assignee",
+        "body": {
+          "user": "Nick"
+        },
+        "code": 200,
+        "expected": {
+          "version": 2
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "INVESTIGATING"
+        },
+        "code": 200,
+        "expected": {
+          "status": "INVESTIGATING",
+          "version": 3
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "INVESTIGATING"
+        },
+        "code": 200,
+        "expected": {
+          "version": 3
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": " Nick ",
+          "text": " Проверяю провайдера "
+        },
+        "code": 200,
+        "expected": {
+          "version": 4,
+          "comments": [
+            {
+              "author": "Nick",
+              "text": "Проверяю провайдера"
+            }
+          ]
+        },
+        "comments_count": 1
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "RESOLVED"
+        },
+        "code": 200,
+        "expected": {
+          "status": "RESOLVED",
+          "version": 5
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "RESOLVED"
+        },
+        "code": 200,
+        "expected": {
+          "version": 5
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": "Nick",
+          "text": "Поздно"
+        },
+        "code": 409
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/assignee",
+        "body": {
+          "user": "Bob"
+        },
+        "code": 409
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "OPEN"
+        },
+        "code": 409
+      },
+      {
+        "method": "GET",
+        "path": "/incidents/{id}",
+        "body": null,
+        "code": 200,
+        "expected": {
+          "version": 5,
+          "status": "RESOLVED"
+        },
+        "comments_count": 1
+      }
+    ]
+  },
+  {
+    "name": "empty_title",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "  ",
+          "service": "payments"
+        },
+        "code": 400
+      }
+    ]
+  },
+  {
+    "name": "long_title",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя",
+          "service": "payments"
+        },
+        "code": 400
+      }
+    ]
+  },
+  {
+    "name": "empty_service",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "Сбой",
+          "service": " "
+        },
+        "code": 400
+      }
+    ]
+  },
+  {
+    "name": "validation_does_not_mutate",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "  Не проходят платежи  ",
+          "service": " payments "
+        },
+        "code": 201,
+        "expected": {
+          "title": "Не проходят платежи",
+          "service": "payments",
+          "status": "OPEN",
+          "assignee": "",
+          "version": 1
+        },
+        "comments_count": 0
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/assignee",
+        "body": {
+          "user": " "
+        },
+        "code": 400
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "UNKNOWN"
+        },
+        "code": 400
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/{id}/status",
+        "body": {
+          "status": "RESOLVED"
+        },
+        "code": 409
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": "",
+          "text": "test"
+        },
+        "code": 400
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": "Nick",
+          "text": " "
+        },
+        "code": 400
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": "Nick",
+          "text": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя"
+        },
+        "code": 400
+      },
+      {
+        "method": "GET",
+        "path": "/incidents/{id}",
+        "body": null,
+        "code": 200,
+        "expected": {
+          "version": 1,
+          "status": "OPEN",
+          "assignee": ""
+        },
+        "comments_count": 0
+      }
+    ]
+  },
+  {
+    "name": "unicode_boundaries",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/incidents",
+        "body": {
+          "title": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя",
+          "service": "catalog"
+        },
+        "code": 201,
+        "expected": {
+          "version": 1
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/{id}/comments",
+        "body": {
+          "author": "Nick",
+          "text": "яяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя"
+        },
+        "code": 200,
+        "expected": {
+          "version": 2
+        },
+        "comments_count": 1
+      }
+    ]
+  },
+  {
+    "name": "missing",
+    "steps": [
+      {
+        "method": "GET",
+        "path": "/incidents/missing-incident",
+        "body": null,
+        "code": 404
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/missing-incident/assignee",
+        "body": {
+          "user": "Nick"
+        },
+        "code": 404
+      },
+      {
+        "method": "PUT",
+        "path": "/incidents/missing-incident/status",
+        "body": {
+          "status": "INVESTIGATING"
+        },
+        "code": 404
+      },
+      {
+        "method": "POST",
+        "path": "/incidents/missing-incident/comments",
+        "body": {
+          "author": "Nick",
+          "text": "test"
+        },
+        "code": 404
+      },
+      {
+        "method": "GET",
+        "path": "/incidents/missing-incident/events",
+        "body": null,
+        "code": 404
+      }
+    ]
+  }
+]
